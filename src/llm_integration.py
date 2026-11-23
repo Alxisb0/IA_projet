@@ -105,7 +105,8 @@ FONCTIONS = {
 }
 OUTILS = [OUTIL_DESCRIBE, OUTIL_COMPARE, OUTIL_CLIENT, OUTIL_PREDICT]
 SYSTEME = ("Tu es un assistant pour un responsable marketing d'un opérateur télécom. La clientèle est découpée "
-           "en 4 groupes (0 à 3) par un clustering. Tu réponds en français, en quelques phrases. "
+           "en 4 groupes (0 à 3) par un clustering. Tu réponds en français, en quelques phrases, "
+           "et tu vouvoies l'utilisateur. "
            "Utilise les outils dès qu'ils sont utiles : n'invente jamais un chiffre sur les clients ou les groupes.")
 
 
@@ -118,8 +119,8 @@ def executer(appel, fonctions):
         return f"Erreur : {erreur}"
 
 
-def assistant(question, outils=OUTILS, fonctions=FONCTIONS, systeme=SYSTEME, max_etapes=5):
-    messages = [{"role": "system", "content": systeme}, {"role": "user", "content": question}]
+def assistant(question, historique=None, outils=OUTILS, fonctions=FONCTIONS, systeme=SYSTEME, max_etapes=5):
+    messages = [{"role": "system", "content": systeme}] + (historique or []) + [{"role": "user", "content": question}]
     appels = []
     for etape in range(max_etapes):
         message = appeler(messages, tools=outils, temperature=0).choices[0].message

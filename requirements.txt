@@ -9,3 +9,4 @@ jupyterlab
 openai>=2.0
 python-dotenv
 pydantic>=2.0
+streamlit
