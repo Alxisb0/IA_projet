@@ -76,6 +76,7 @@ def client_details(customer_id: str) -> dict:
         "internet": client["InternetService"],
         "senior": bool(client["SeniorCitizen"]),
         "est_parti": bool(client["Churn"] == "Yes"),
+        "profil_du_groupe": describe_group(int(client["cluster"])),
     }
 
 
