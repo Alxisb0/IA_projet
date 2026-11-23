@@ -120,7 +120,9 @@ def executer(appel, fonctions):
 
 
 def assistant(question, historique=None, outils=OUTILS, fonctions=FONCTIONS, systeme=SYSTEME, max_etapes=5):
-    messages = [{"role": "system", "content": systeme}] + (historique or []) + [{"role": "user", "content": question}]
+    messages = [{"role": "system", "content": systeme}]
+    messages += historique or []
+    messages.append({"role": "user", "content": question})
     appels = []
     for etape in range(max_etapes):
         message = appeler(messages, tools=outils, temperature=0).choices[0].message
