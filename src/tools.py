@@ -11,6 +11,13 @@ KMEANS = joblib.load(ROOT / "models/kmeans.joblib")
 
 GROUPES = sorted(CLIENTS["cluster"].unique().tolist())
 
+NOMS = {
+    0: "Nouveaux petits forfaits",
+    1: "Fidèles gros consommateurs",
+    2: "Nouveaux gros forfaits à risque",
+    3: "Fidèles économes",
+}
+
 
 def describe_group(group_id: int) -> dict:
     if group_id not in GROUPES:
@@ -20,6 +27,7 @@ def describe_group(group_id: int) -> dict:
 
     return {
         "groupe": group_id,
+        "nom": NOMS[group_id],
         "nombre_clients": len(groupe),
         "part_de_la_clientele": round(len(groupe) / len(CLIENTS), 3),
         "anciennete_moyenne_mois": round(float(groupe["tenure"].mean()), 1),
@@ -66,7 +74,7 @@ def client_details(customer_id: str) -> dict:
         "contrat": client["Contract"],
         "internet": client["InternetService"],
         "senior": bool(client["SeniorCitizen"]),
-        "est_parti": client["Churn"] == "Yes",
+        "est_parti": bool(client["Churn"] == "Yes"),
     }
 
 
