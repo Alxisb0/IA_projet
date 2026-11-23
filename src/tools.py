@@ -68,6 +68,7 @@ def client_details(customer_id: str) -> dict:
     return {
         "customer_id": customer_id,
         "groupe": int(client["cluster"]),
+        "nom_groupe": NOMS[int(client["cluster"])],
         "anciennete_mois": int(client["tenure"]),
         "facture_mensuelle": float(client["MonthlyCharges"]),
         "total_facture": float(client["TotalCharges"]),
